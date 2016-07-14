@@ -226,6 +226,14 @@ public class ApplicationInformation
     @Override
     public String toString()
     {
-        return name + " v" + major + "." + minor + "." + patch + staticLabels;
+        String rtn = name + " v" + major + "." + minor + "." + patch;
+        
+        if(labels != null && !labels.isEmpty() && staticLabels != null && 
+                !staticLabels.isEmpty())
+        {
+            rtn = rtn + staticLabels;
+        }
+        
+        return rtn;
     }
 }
