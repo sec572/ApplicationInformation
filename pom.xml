@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.sector572.utils.db.lib</groupId>
     <artifactId>ApplicationInformation</artifactId>
-    <version>0.1.0-BETA</version>
+    <version>1.0.0-RELEASE</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
