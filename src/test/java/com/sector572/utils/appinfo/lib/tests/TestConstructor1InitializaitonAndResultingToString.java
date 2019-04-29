@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
  *
  * @author eddie
  */
+@Deprecated
 public class TestConstructor1InitializaitonAndResultingToString
 {
     private ApplicationInformation appInfo;
