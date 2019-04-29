@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package com.sector572.utils.appinfo.lib;
 
 import java.util.ArrayList;
@@ -33,12 +33,15 @@ public class ApplicationInformation
     private int patch;
     private List<String> labels;
     private String staticLabels;
+    private StringBuilder labelBuilder;
 
     /**
      * Disabled default constructor.
      */
     private ApplicationInformation()
     {
+        labels = new ArrayList<>();
+        labelBuilder = new StringBuilder();
     }
 
     /**
@@ -55,6 +58,7 @@ public class ApplicationInformation
                                   int minor,
                                   int patch)
     {
+        this();
         this.name = name;
         this.major = major;
         this.minor = minor;
@@ -106,9 +110,8 @@ public class ApplicationInformation
              minor,
              patch);
 
-        this.labels = new ArrayList<>();
         this.labels.addAll(labels);
-        initStaticLabels();
+        refreshStaticLabels();
     }
 
     /**
@@ -141,18 +144,38 @@ public class ApplicationInformation
     /**
      * Initializes static labels property.
      */
+    @Deprecated
     private void initStaticLabels()
     {
-        if (labels != null && !labels.isEmpty())
+        if(labels != null && !labels.isEmpty())
         {
             StringBuilder sb = new StringBuilder();
 
-            for (String label : labels)
+            for(String label : labels)
             {
                 sb.append(label);
             }
 
             staticLabels = sb.toString();
+        }
+    }
+
+    private void refreshStaticLabels()
+    {
+        if(labels != null && !labels.isEmpty())
+        {
+            if(labelBuilder.length() > 0)
+            {
+                labelBuilder.delete(0,
+                                    labelBuilder.length());
+            }
+
+            for(String label : labels)
+            {
+                labelBuilder.append(label);
+            }
+
+            staticLabels = labelBuilder.toString();
         }
     }
 
@@ -218,6 +241,26 @@ public class ApplicationInformation
     }
 
     /**
+     * Adds a label to the application information instance.
+     *
+     * @throws IllegalStateException When labels is not initialized.
+     * @param label
+     */
+    public void addLabel(String label)
+    {
+        if(labels != null)
+        {
+            labels.add(label);
+            refreshStaticLabels();
+        }
+        else
+        {
+            throw new IllegalStateException(
+                    "Unable to add the label due to an initialization error.");
+        }
+    }
+
+    /**
      * Returns the complete application version including the name, version
      * numbers, and any labels (if provided).
      *
@@ -227,13 +270,13 @@ public class ApplicationInformation
     public String toString()
     {
         String rtn = name + " v" + major + "." + minor + "." + patch;
-        
-        if(labels != null && !labels.isEmpty() && staticLabels != null && 
-                !staticLabels.isEmpty())
+
+        if(labels != null && !labels.isEmpty() && staticLabels != null
+           && !staticLabels.isEmpty())
         {
             rtn = rtn + staticLabels;
         }
-        
+
         return rtn;
     }
 }
