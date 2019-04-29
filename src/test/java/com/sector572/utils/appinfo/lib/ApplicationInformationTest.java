@@ -171,7 +171,7 @@ public class ApplicationInformationTest
         assertEquals(expected,
                      actual);
     }
-    
+
     @Test
     public void testConstructorWithDescriptionAndMultiLabelVersionString()
     {
@@ -190,5 +190,40 @@ public class ApplicationInformationTest
 
         assertEquals(expected,
                      actual);
+    }
+
+    @Test
+    public void testAddLabel()
+    {
+        List<String> expected = new ArrayList<>();
+        expected.add("TestLabel");
+
+        ApplicationInformation appInfo = new ApplicationInformation(
+                "Label Test",
+                1,
+                0,
+                0);
+        
+        appInfo.addLabel("TestLabel");
+        
+        assertEquals(expected,
+                     appInfo.getLabels());
+    }
+
+    @Test
+    public void testAddLabelVersionString()
+    {
+        String expected = "Label Test v1.0.0-TestLabel";
+
+        ApplicationInformation appInfo = new ApplicationInformation(
+                "Label Test",
+                1,
+                0,
+                0);
+        
+        appInfo.addLabel("-TestLabel");
+        
+        assertEquals(expected,
+                     appInfo.toString());
     }
 }
